@@ -28,6 +28,13 @@ public class Calculator
         return to_USD(from) * USD_to(to); //ratio for converting currency X to currency Y
     }
 
+    //maybe expand calculator a little
+    //add some basic functionality for interacting with a user's currency
+    //this would be probably be helpful
+    private double nearest_cent(final double input) {
+        return Math.round(input*100.0)/100.0;
+    }
+
     //public
     public Calculator() 
     {
@@ -53,4 +60,5 @@ public class Calculator
     public double convert(final double value, final String from, final String to) {
         return value * conversion_ratio(from, to); //convert currency X to currency Y
     }
+
 }

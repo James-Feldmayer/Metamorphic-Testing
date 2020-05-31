@@ -12,3 +12,10 @@ public class Client
         oracle.start();
     }    
 }
+
+/*
+Calculator - SUT
+Client - Main method
+Oracle - Our solution
+OracleTest - TDD (junit) our solution
+*/ 

@@ -5,6 +5,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.lang.Math;
 
+//should be a list of all the functions
+/*
+Oracle()
+start
+transative_axiom
+ratio_axiom
+reversible_axiom
+near_equal
+random_index
+random_code
+nearest_cent
+*/
+
 public class Oracle 
 {
     ArrayList<String> currency_codes = new ArrayList<>();
@@ -28,122 +41,166 @@ public class Oracle
         }
     }
 
+    //jamie has the outside interaction worked out?
+
+    //next big task is to add some more unit tests
+
+    //for better diagnostics
+    //we can decouple the axioms 
+    //rather than passing thing dumb shitty
+    //should also change printing and return double instead
+
+    //also better for TDD
+
     public void start() {
-    
+
         int failed_cases = 0;
 
         for(int i = 0; i < 10000; i++) {
 
-            final String currencyA = randomCode();
-            final String currencyB = randomCode();
-            final String currencyC = randomCode();
-            final double inital = round(Math.random() * 1000); //random
+            final String currencyA = random_code(); //random currency codes
+            final String currencyB = random_code();
+            final String currencyC = random_code();
 
-            if(!reversible(inital, currencyA, currencyB))  //oracle 1
-            {
-                failed_cases++;
-            }
+            final double moneyA1 = random_money(1, 1000000); //random amount of money 0-250
+            final double moneyA2 = random_money(1, 1000000);
 
-            if(!transative(inital, currencyA, currencyB, currencyC)) //oracle 2 
-            {   
-                failed_cases++;
-            }
-
-            if(!ratio()) { //oracle 3
-                failed_cases++;
-            }
+            if(!reversible_axiom(moneyA1, currencyA, currencyB)) { failed_cases++; }
+            if(!transative_axiom(moneyA1, currencyA, currencyB, currencyC)) { failed_cases++; }
+            if(!ratio_axiom(moneyA1, moneyA2, currencyA, currencyB)) { failed_cases++; }
         } 
             
         System.out.println(failed_cases + "/10000");
 
-        //return 0;
     }
 
-    //need a few test cases for each and every function
-
-    //need some test cases
-    public boolean reversible(final double inital, final String currencyA, final String currencyB) { //oracle 1
+    public boolean reversible_axiom(final double moneyA1, final String currencyA, final String currencyB) {
         
-        //input -> output
-        final double ouput = calculator.convert(inital, currencyA, currencyB); 
+        //moneyA1 -> moneyB
+        final double moneyB = calculator.convert(moneyA1, currencyA, currencyB); 
         
-        //ouput -> reverse
-        final double reverse = calculator.convert(ouput, currencyB, currencyA);
+        //moneyB -> moneyA2
+        final double moneyA2 = calculator.convert(moneyB, currencyB, currencyA);
 
-        //input == reverse
-        if(inital == round(reverse)) {
+        //moneyA1 == moneyA2
+        if(near_equal(moneyA1, moneyA2, 0.01)) {
             return true;
         }
         else {
-            System.out.println(); //logging/printing inside here
+            //logging/printing inside here
+        
+            System.out.println(String.format("%s:%s -> %s:%s", currencyA, nearest_cent(moneyA1), currencyB, nearest_cent(moneyB)));
+            System.out.println(String.format("%s:%s -> %s:%s", currencyB, nearest_cent(moneyB), currencyA, nearest_cent(moneyA2)));
+            System.out.println(String.format("%s:%s != %s:%s", currencyA, nearest_cent(moneyA1), currencyA, nearest_cent(moneyA2)));
+            System.out.println();
             
-            //probably still suffering form rounding error
-            //need to do some logging to determine
-
             return false;
         }
     }
 
-    //need some test cases
-    public boolean transative(final double A1, final String currencyA, final String currencyB, final String currencyC) { //oracle 2
+    public boolean transative_axiom(final double moneyA, final String currencyA, final String currencyB, final String currencyC) {
 
-        //A1 -> B1 -> C1
-        final double B1 = calculator.convert(A1, currencyA, currencyB); 
-        final double C1 = calculator.convert(B1, currencyB, currencyC);
+        //moneyA -> moneyB -> moneyC1
+        final double moneyB = calculator.convert(moneyA, currencyA, currencyB); 
+        final double moneyC1 = calculator.convert(moneyB, currencyB, currencyC);
         
-        //A1 -> C2
-        final double C2 = calculator.convert(A1, currencyA, currencyC); 
+        //moneyA -> moneyC2
+        final double moneyC2 = calculator.convert(moneyA, currencyA, currencyC); 
 
-        //C1 == C2
-        if(round(C1) == round(C2)) {
+        //moneyC1 == moneyC2
+        if(near_equal(moneyC1, moneyC2, 0.01)) {
             return true;
         }
         else {
-            System.out.println(); //logging/printing inside here
+            //logging/printing inside here
+
+            System.out.println(String.format("%s:%s -> %s:%s -> %s:%s", currencyA, nearest_cent(moneyA), currencyB, nearest_cent(moneyB), currencyC, nearest_cent(moneyC1)));
+            System.out.println(String.format("%s:%s -> %s:%s", currencyA, nearest_cent(moneyA), currencyC, nearest_cent(moneyC2)));
+            System.out.println(String.format("%s:%s != %s:%s", currencyC, nearest_cent(moneyC1), currencyC, nearest_cent(moneyC2)));
+            System.out.println();
 
             return false;
         }
     }
 
-    public boolean ratio() { //oracle 3
-        /*
-        //final double inital, final String currencyA, final String currencyB
-        final double ouput = calculator.convert(inital, currencyA, currencyB); 
-        final double reverse = calculator.convert(ouput, currencyB, currencyA);
-        return inital == round(reverse);
-        */
+    public boolean ratio_axiom(final double moneyA1, final double moneyA2, final String currencyA, final String currencyB) {
 
-        final boolean ans = true;
+        //moneyA1 -> moneyB1
+        final double moneyB1 = calculator.convert(moneyA1, currencyA, currencyB);
+        
+        //moneyA2 -> moneyB2
+        final double moneyB2 = calculator.convert(moneyA2, currencyA, currencyB);
 
-        if(ans) {
+        final double ratio1 = moneyA1/moneyB1;
+        final double ratio2 = moneyA2/moneyB2; 
+
+        if(near_equal(ratio1, ratio2, 0.01)) { //should be a % error not fixed rate
             return true;
         }
         else {
-            System.out.println(); //logging/printing inside here
+            //logging/printing inside here
+
+            //kind of shitty should, probably print error number
+            //then some diagnostic info
+            System.out.println(String.format("%s:%s -> %s:%s", currencyA, nearest_cent(moneyA1), currencyB, nearest_cent(moneyB1)));
+            System.out.println(String.format("%s / %s = %s", nearest_cent(moneyA1), nearest_cent(moneyB1), nearest_cent(ratio1)));
+            System.out.println();
+            System.out.println(String.format("%s:%s -> %s:%s", currencyA, nearest_cent(moneyA2), currencyB, nearest_cent(moneyB2)));
+            System.out.println(String.format("%s / %s = %s", nearest_cent(moneyA2), nearest_cent(moneyB2), nearest_cent(ratio2)));
+            System.out.println();
+            System.out.println(String.format("%s != %s", nearest_cent(ratio1), nearest_cent(ratio2)));
+            System.out.println();
 
             return false;
         }
     }
 
-    public double round(final double input) {
+    //round off to the nearest cent 
+    public double nearest_cent(final double input) {
         return Math.round(input*100.0)/100.0;
     }
 
-    public String randomCode() {
-        final String random_code = currency_codes.get(randomIndex());
-        return random_code;
+    //get a random curreny code from currency_codes
+    public String random_code() {
+        return currency_codes.get(random_index());
     }
     
-    public int randomIndex() {
-        final int index = (int)(Math.random() * currency_codes.size());
-        return index;
+    //generate a random (int) index in the container currency_codes 
+    public int random_index() {
+        return (int)random(currency_codes.size());
     }
 
-    /*
-    generate first then generate second based off that
+    //generate a random number between 0 and maximum
+    public double random(final double maximum) { //minimum = 0
+        return Math.random() * maximum;
+    }
 
-    accross sites?
-    */
+    //generate a random number between minimum and maximum
+    public double random(final double minimum, final double maximum) {
 
-    //USD_to(currency)
+        final double roof = maximum - minimum; //roof+minimum = maximum
+
+        final double pre_minimum = random(roof); //random number between zero and roof
+                
+        return pre_minimum + minimum; //random number between minimum (0+minimum = minimum) and maximum (roof+minimum = maximum)
+    }
+
+    //gerate a random amount of money in a range
+    public double random_money(final double maximum) {
+        return nearest_cent(random(maximum));
+    }
+
+    //gerate a random amount of money in a range
+    public double random_money(final double minimum, final double maximum) {
+        return nearest_cent(random(minimum, maximum));
+    }
+
+    //allow for a small margain of error
+    public boolean near_equal(final double number1, final double number2, final double threshold) {
+        
+        double error = Math.abs(number1 - number2); //difference (non-negative) 
+
+        return error < threshold;
+    }
+    
 }

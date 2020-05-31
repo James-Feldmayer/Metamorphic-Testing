@@ -44,7 +44,7 @@ public class OracleTest
         Set<Integer> actual = new HashSet<>();
 
         for(int i = 0; i < 10000; i++) {        
-            actual.add(oracle.randomIndex());
+            actual.add(oracle.random_index());
         }
 
         //System.out.println(actual.toString());
@@ -60,7 +60,7 @@ public class OracleTest
         Set<String> actual = new HashSet<>();
     
         for(int i = 0; i < 10000; i++) {        
-            actual.add(oracle.randomCode());
+            actual.add(oracle.random_code());
         }
 
         //System.out.println(actual);
