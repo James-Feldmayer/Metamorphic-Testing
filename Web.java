@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,11 +61,17 @@ public class Web {
             br.close();
         
             return result;
-        } catch (Exception e) {
-            System.out.println("Help");
+        } 
+
+        catch (MalformedURLException e) {
+            System.err.println("Error: " + address + " is faulty");
+        }
+        
+        catch (IOException e) {
+            System.err.println("Error: Problem reading html file");
         }
 
-        return "";
+        return "Error";
     }
 
     public static String text_tag(BufferedReader html, String tag_class) {
@@ -72,29 +79,39 @@ public class Web {
         String line;
         String innerText = "";
         int taglv = 1;
-        //If </ at next char +1, else -1
+        
         try {
 			htmlLoop: while ((line = html.readLine()) != null) {
 			    if (line.contains(tag_class)) {
                     resultFlag = true;
                     line = line.substring(line.indexOf(tag_class));
                 }
+
                 if (!resultFlag) continue;
+
                 //Checking within the lines
                 while (line.indexOf(">") > 0) {
+                    
+                    //Moves to start of innerText for next tag
                     line = line.substring(line.indexOf(">") + 1);
-                    innerText += line.substring(0, line.indexOf("<")); //Results between start tag and next tag
+
+                    //Results between start tag and next tag
+                    innerText += line.substring(0, line.indexOf("<"));
                     if (line.indexOf("<") < 0) break;
-                    //Checking levels deep in the html tags
+
+                    //Alters levels deep in the html tags through opening and closing tags
                     if (line.indexOf("</") == line.indexOf("<")) taglv--;
                     else taglv++;
                     if (taglv < 1) break htmlLoop;
                 }
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+        } 
+        
+        catch (IOException e) {
+			System.err.println("Error: Problem reading html file");
         }
+
+        //Removes all alphabetical symbols
         innerText = innerText.replaceAll("[^\\d.]", "");
         return innerText;
     }
