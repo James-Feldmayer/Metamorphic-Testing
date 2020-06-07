@@ -11,7 +11,7 @@ public class Web {
 
     public static void main(String[] args) { 
 
-        //mine should do the same
+        //
 
         double amount = Util.random_money(10000); //partition testing?
         String from = Util.randomCurrency();
@@ -19,28 +19,22 @@ public class Web {
 
         //
 
-        String a = exchange(xr_url(amount, from, to), "ccOutputRslt\">");
-        System.out.println(a);
-    
-        String b = exchange(cn_url(amount, from, to), "<font color=green><b>");
-        System.out.println(b);
+        String xr_url = String.format("https://www.x-rates.com/calculator/?amount=%s&from=%s&to=%s", amount, from, to);
+        String xr_tag_class = "ccOutputRslt\">";
+        String xr_output = exchange(xr_url, xr_tag_class);
+        System.out.println(xr_output);
 
-        //String c = exchange(xe_url(amount, from, to), "converterresult-toAmount");
-        //System.out.println(c);
+        String cn_url = String.format("https://www.calculator.net/currency-calculator.html?eamount=%s&efrom=%s&eto=%s&type=1&x=0&y=0", amount, from, to); 
+        String cn_tag_class = "<font color=green><b>";
+        String cn_output = exchange(cn_url, cn_tag_class);
+        System.out.println(cn_output);
+
+        //String xe_url = String.format("https://www.xe.com/currencyconverter/convert/?Amount=%s&From=%s&To=%s", amount, from, to);
+        //String xe_tag_class = "converterresult-toAmount";
+        //String xe_output = exchange(xe_url, xe_tag_class);
+        //System.out.println(xe_output);
 
         return;
-    }
-
-    public static String xr_url(double amount, String from, String to) {
-        return String.format("https://www.x-rates.com/calculator/?amount=%s&from=%s&to=%s", amount, from, to);
-    }
-
-    public static String cn_url(double amount, String from, String to) {
-        return String.format("https://www.calculator.net/currency-calculator.html?eamount=%s&efrom=%s&eto=%s&type=1&x=0&y=0", amount, from, to);
-    }
-
-    public static String xe_url(double amount, String from, String to) {
-        return String.format("https://www.xe.com/currencyconverter/convert/?Amount=%s&From=%s&To=%s", amount, from, to);
     }
 
     public static String exchange(String address, String tag_class) {
