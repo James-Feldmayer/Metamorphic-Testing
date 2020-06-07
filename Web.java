@@ -15,44 +15,17 @@ public class Web {
         String to = Util.randomCurrency();
         double amount = Util.random_money(10000); //partition testing?
         
-        String x_rates = String.format("https://www.x-rates.com/calculator/?amount=%s&from=%s&to=%s", "60.06", "AUD", "GBP");
-        String calculator_net = String.format("https://www.calculator.net/currency-calculator.html?eamount=%s&efrom=%s&eto=%s&type=1&x=0&y=0", "60.06", "AUD", "GBP");
-        //String xe = String.format("https://www.xe.com/currencyconverter/convert/?Amount=%s&From=%s&To=%s", "60.06", "AUD", "GBP");
+        //exchange(String.format("https://www.xe.com/currencyconverter/convert/?Amount=%s&From=%s&To=%s", "60.06", "AUD", "GBP"), "converterresult-toAmount");
+        exchange(String.format("https://www.x-rates.com/calculator/?amount=%s&from=%s&to=%s", "60.06", "AUD", "GBP"), "ccOutputRslt\">");
+        exchange(String.format("https://www.calculator.net/currency-calculator.html?eamount=%s&efrom=%s&eto=%s&type=1&x=0&y=0", "60.06", "AUD", "GBP"), "<font color=green><b>");
+    }
 
+    public static String exchange(String address, String tag_class) {
         //
-    }
-}
- 
-class Exchange {
-    private int paraSize;
-    private String address;
-    private ArrayList<String> paramaters;
-    private ArrayList<String> values;
-    private String tagClass;
-
-    Exchange(String address, ArrayList<String> paramaters, ArrayList<String> values, String tagClass) {
-        this.address = address;
-        this.paramaters = paramaters;
-        this.values = values;
-        this.tagClass = tagClass;
-        if (paramaters.size() > values.size()) paraSize = values.size();
-        else paraSize = paramaters.size();
-    }
-
-    public String call() {
-        //Setup
-        String finalAddress = address;
-        if (paraSize > 0) {
-            finalAddress += "?" + paramaters.get(0) + "=" + values.get(0);
-        }
-        for (int i = 1; i < paraSize; i++) {
-            finalAddress += "&" + paramaters.get(i) + "=" + values.get(i);
-        }
-        System.out.println(finalAddress);
 
         try {
             //Request
-            URL url = new URL(finalAddress);
+            URL url = new URL(address);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             //Retrieve
@@ -61,8 +34,8 @@ class Exchange {
             String result = "";
             String line;
             while ((line = br.readLine()) != null) {
-                if (line.contains(tagClass)) {
-                    result = line.substring(line.indexOf(tagClass) + tagClass.length(), line.length());
+                if (line.contains(tag_class)) {
+                    result = line.substring(line.indexOf(tag_class) + tag_class.length(), line.length());
                     result = result.substring(0, result.indexOf("<"));
                     break;
                 }
@@ -76,5 +49,6 @@ class Exchange {
         }
         return "";
     }
+
 }
 
