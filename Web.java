@@ -8,62 +8,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Web {
-    public static void main(String[] args) {
-        String from = Web.randomCurrency();
-        String to = Web.randomCurrency();
- 
-        double amount = (double) ((int) (Math.random() * 10000)) / 100;
 
-        String xr = Xrates(String.valueOf(amount), from, to);
-        String cn = calcNet(String.valueOf(amount), from, to);
+    public static void main(String[] args) { 
 
-        System.out.println(from + " " + amount + " = " + to + " " + xr);
-        System.out.println(from + " " + amount + " = " + to + " " + cn);
+        String from = Util.randomCurrency();
+        String to = Util.randomCurrency();
+        double amount = Util.random_money(10000); //partition testing?
+        
+        //exchange(String.format("https://www.xe.com/currencyconverter/convert/?Amount=%s&From=%s&To=%s", "60.06", "AUD", "GBP"), "converterresult-toAmount");
+        exchange(String.format("https://www.x-rates.com/calculator/?amount=%s&from=%s&to=%s", "60.06", "AUD", "GBP"), "ccOutputRslt\">");
+        exchange(String.format("https://www.calculator.net/currency-calculator.html?eamount=%s&efrom=%s&eto=%s&type=1&x=0&y=0", "60.06", "AUD", "GBP"), "<font color=green><b>");
     }
 
-    static String randomCurrency() {
-        String[] currencies = {"GBP","EUR","JPY","CHF","USD","ARS","AED","AUD"};
- 
-        int randomIndex = (int) (Math.random() * currencies.length);
- 
-        return currencies[randomIndex];
-    }
+    public static String exchange(String address, String tag_class) {
+        //
 
-    //Doesn't allow auto extraction :(
-    public static String XEchange(String amount, String from, String to) {
-        String address = String.format("https://www.xe.com/currencyconverter/convert/?Amount=%s&From=%s&To=%s", amount, from, to);
-        Exchange xeapi = new Exchange(address, "converterresult-toAmount");
-        String response = xeapi.call();
-        return response;
-    }
-
-    public static String Xrates(String amount, String from, String to) {
-        String address = String.format("https://www.x-rates.com/calculator/?amount=%s&from=%s&to=%s", amount, from, to);
-        Exchange xrateapi = new Exchange(address, "ccOutputRslt\">");
-        String response = xrateapi.call();
-        return response;
-    }
-
-    public static String calcNet(String amount, String from, String to) {
-        String address = String.format("https://www.calculator.net/currency-calculator.html?eamount=%s&efrom=%s&eto=%s&type=1&x=0&y=0", amount, from, to);
-        Exchange xrateapi = new Exchange(address, "<font color=green><b>");
-        String response = xrateapi.call();
-        return response;
-    }
-}
-
-
-class Exchange {
-    private String address;
-    private String tagClass;
-
-    Exchange(String address, String tagClass) {
-        this.address = address;
-        this.tagClass = tagClass;
-    }
-
-    public String call() {  
-        System.out.println(address);
         try {
             //Request
             URL url = new URL(address);

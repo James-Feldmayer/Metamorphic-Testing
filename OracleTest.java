@@ -36,6 +36,7 @@ public class OracleTest
 
     //assertEquals(actual, expected);
 
+    /*
     @Test
     public void testRandomIndex() //testRandom 
     {
@@ -44,7 +45,7 @@ public class OracleTest
         Set<Integer> actual = new HashSet<>();
 
         for(int i = 0; i < 10000; i++) {        
-            actual.add(oracle.random_index());
+            actual.add(Util.random_index());
         }
 
         //System.out.println(actual.toString());
@@ -60,12 +61,13 @@ public class OracleTest
         Set<String> actual = new HashSet<>();
     
         for(int i = 0; i < 10000; i++) {        
-            actual.add(oracle.random_code());
+            actual.add(Util.random_code());
         }
 
         //System.out.println(actual);
 
         assertEquals(actual, read());
     }
-    
+    */
+
 };
