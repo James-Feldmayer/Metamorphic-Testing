@@ -31,7 +31,7 @@ public class Web {
             //Retrieve
             InputStream stream = con.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(stream));
-            String result = textTag(br);
+            String result = textTag(br, tag_class);
             //Stop
             con.disconnect();
             br.close();
@@ -42,7 +42,7 @@ public class Web {
         return "";
     }
 
-    public String textTag(BufferedReader html) {
+    public static String textTag(BufferedReader html, String tag_class) {
         boolean resultFlag = false;
         String line;
         String innerText = "";
@@ -50,9 +50,9 @@ public class Web {
         //If </ at next char +1, else -1
         try {
 			htmlLoop: while ((line = html.readLine()) != null) {
-			    if (line.contains(tagClass)) {
+			    if (line.contains(tag_class)) {
                     resultFlag = true;
-                    line = line.substring(line.indexOf(tagClass));
+                    line = line.substring(line.indexOf(tag_class));
                 }
                 if (!resultFlag) continue;
                 //Checking within the lines
