@@ -71,10 +71,10 @@ public class Oracle
         } 
         
         if(failed_cases > 0) {
-            System.out.println("Errors: " + failed_cases);
+            System.out.println("Some errors occured" + failed_cases);
         }
         else {
-            System.out.println("Successfull");
+            System.out.println("All tests passed");
         }
 
     }
