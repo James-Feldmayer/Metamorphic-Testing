@@ -72,18 +72,10 @@ class Exchange {
             //Retrieve
             InputStream stream = con.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(stream));
-            String result = "";
-            String line;
-            while ((line = br.readLine()) != null) {
-                if (line.contains(tagClass)) {
-                    result = line.substring(line.indexOf(tagClass) + tagClass.length(), line.length());
-                    result = result.substring(0, result.indexOf("<"));
-                    break;
-                }
-            }
+            String result = textTag(br);
             //Stop
-            br.close();
             con.disconnect();
+            br.close();
             return result;
         } catch (Exception e) {
             System.out.println("Help");
@@ -91,30 +83,35 @@ class Exchange {
         return "";
     }
 
-    public String textTag(BufferedReader html, String tag) {
+    public String textTag(BufferedReader html) {
         boolean resultFlag = false;
         String line;
         String innerText = "";
         int taglv = 1;
         //If </ at next char +1, else -1
         try {
-			while ((line = html.readLine()) != null) {
-			    if (line.contains(tag)) {
+			htmlLoop: while ((line = html.readLine()) != null) {
+			    if (line.contains(tagClass)) {
                     resultFlag = true;
-                    line = line.substring(line.indexOf(tag) + tag.length());
+                    line = line.substring(line.indexOf(tagClass));
                 }
-			    if (!resultFlag) continue;
-			    innerText += line.substring(0, line.indexOf("<")); //Results between start tag and next tag
-			    //Checking levels deep in
-			    if (line.indexOf("</") == line.indexOf("<")) taglv--;
-			    else taglv++;
-			    if (taglv < 1) break;
-			    //break;
+                if (!resultFlag) continue;
+                //Checking within the lines
+                while (line.indexOf(">") > 0) {
+                    line = line.substring(line.indexOf(">") + 1);
+                    innerText += line.substring(0, line.indexOf("<")); //Results between start tag and next tag
+                    if (line.indexOf("<") < 0) break;
+                    //Checking levels deep in the html tags
+                    if (line.indexOf("</") == line.indexOf("<")) taglv--;
+                    else taglv++;
+                    if (taglv < 1) break htmlLoop;
+                }
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
         }
+        innerText = innerText.replaceAll("[^\\d.]", "");
         return innerText;
     }
 }
