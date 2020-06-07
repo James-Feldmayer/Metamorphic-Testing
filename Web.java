@@ -54,13 +54,16 @@ public class Web {
             br.close();
         
             return result;
-        } catch (Exception e) {
-            System.out.println("Help");
+        } 
+        catch (Exception e) {
+            System.err.println("Http url connection");
+            System.err.println("Buffered reader");
         }
 
-        return "";
+        return "Error";
     }
 
+    //confusing
     public static String text_tag(BufferedReader html, String tag_class) {
         boolean resultFlag = false;
         String line;
@@ -87,7 +90,11 @@ public class Web {
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+            e.printStackTrace();
+            
+            //can you please name your errors?
+
+            //System.err.println
         }
         innerText = innerText.replaceAll("[^\\d.]", "");
         return innerText;

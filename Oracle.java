@@ -69,8 +69,13 @@ public class Oracle
             if(!transative_axiom(moneyA1, currencyA, currencyB, currencyC)) { failed_cases++; }
             if(!ratio_axiom(moneyA1, moneyA2, currencyA, currencyB)) { failed_cases++; }
         } 
-            
-        System.out.println(failed_cases + "/10000");
+        
+        if(failed_cases > 0) {
+            System.out.println("Errors: " + failed_cases);
+        }
+        else {
+            System.out.println("Successfull");
+        }
 
     }
 
