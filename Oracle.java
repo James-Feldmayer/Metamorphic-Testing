@@ -41,17 +41,6 @@ public class Oracle
         }
     }
 
-    //jamie has the outside interaction worked out?
-
-    //next big task is to add some more unit tests
-
-    //for better diagnostics
-    //we can decouple the axioms 
-    //rather than passing thing dumb shitty
-    //should also change printing and return double instead
-
-    //also better for TDD
-
     public void start() {
 
         int failed_cases = 0;
@@ -82,17 +71,17 @@ public class Oracle
     public boolean reversible_axiom(final double moneyA1, final String currencyA, final String currencyB) {
         
         //moneyA1 -> moneyB
-        final double moneyB = calculator.convert(moneyA1, currencyA, currencyB); 
+        final double moneyB = calculator.calculate(moneyA1, currencyA, currencyB); 
         
         //moneyB -> moneyA2
-        final double moneyA2 = calculator.convert(moneyB, currencyB, currencyA);
+        final double moneyA2 = calculator.calculate(moneyB, currencyB, currencyA);
 
         //moneyA1 == moneyA2
         if(Util.near_equal(moneyA1, moneyA2, 0.01)) {
             return true;
         }
         else {
-            //logging/printing inside here
+            //logging inside here is easier
         
             System.out.println(String.format("%s:%s -> %s:%s", currencyA, Util.nearest_cent(moneyA1), currencyB, Util.nearest_cent(moneyB)));
             System.out.println(String.format("%s:%s -> %s:%s", currencyB, Util.nearest_cent(moneyB), currencyA, Util.nearest_cent(moneyA2)));
@@ -106,18 +95,18 @@ public class Oracle
     public boolean transative_axiom(final double moneyA, final String currencyA, final String currencyB, final String currencyC) {
 
         //moneyA -> moneyB -> moneyC1
-        final double moneyB = calculator.convert(moneyA, currencyA, currencyB); 
-        final double moneyC1 = calculator.convert(moneyB, currencyB, currencyC);
+        final double moneyB = calculator.calculate(moneyA, currencyA, currencyB); 
+        final double moneyC1 = calculator.calculate(moneyB, currencyB, currencyC);
         
         //moneyA -> moneyC2
-        final double moneyC2 = calculator.convert(moneyA, currencyA, currencyC); 
+        final double moneyC2 = calculator.calculate(moneyA, currencyA, currencyC); 
 
         //moneyC1 == moneyC2
         if(Util.near_equal(moneyC1, moneyC2, 0.01)) {
             return true;
         }
         else {
-            //logging/printing inside here
+            //logging inside here is easier
 
             System.out.println(String.format("%s:%s -> %s:%s -> %s:%s", currencyA, Util.nearest_cent(moneyA), currencyB, Util.nearest_cent(moneyB), currencyC, Util.nearest_cent(moneyC1)));
             System.out.println(String.format("%s:%s -> %s:%s", currencyA, Util.nearest_cent(moneyA), currencyC, Util.nearest_cent(moneyC2)));
@@ -131,10 +120,10 @@ public class Oracle
     public boolean ratio_axiom(final double moneyA1, final double moneyA2, final String currencyA, final String currencyB) {
 
         //moneyA1 -> moneyB1
-        final double moneyB1 = calculator.convert(moneyA1, currencyA, currencyB);
+        final double moneyB1 = calculator.calculate(moneyA1, currencyA, currencyB);
         
         //moneyA2 -> moneyB2
-        final double moneyB2 = calculator.convert(moneyA2, currencyA, currencyB);
+        final double moneyB2 = calculator.calculate(moneyA2, currencyA, currencyB);
 
         final double ratio1 = moneyA1/moneyB1;
         final double ratio2 = moneyA2/moneyB2; 
@@ -143,10 +132,10 @@ public class Oracle
             return true;
         }
         else {
-            //logging/printing inside here
+            //logging inside here is easier
 
-            //kind of shitty should, probably print error number
-            //then some diagnostic info
+            //kind of shitty
+            //maybe print error code and some diagnostic info?
             System.out.println(String.format("%s:%s -> %s:%s", currencyA, Util.nearest_cent(moneyA1), currencyB, Util.nearest_cent(moneyB1)));
             System.out.println(String.format("%s / %s = %s", Util.nearest_cent(moneyA1), Util.nearest_cent(moneyB1), Util.nearest_cent(ratio1)));
             System.out.println();

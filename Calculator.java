@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.lang.Math;
 
-public class Calculator 
+public class Calculator implements Currency
 {
     HashMap<String, Double> MAP_USD_to = new HashMap<>();
 
@@ -57,7 +57,7 @@ public class Calculator
         }
     }
 
-    public double convert(final double value, final String from, final String to) {
+    public double calculate(final double value, final String from, final String to) {
         return value * conversion_ratio(from, to); //convert currency X to currency Y
     }
 
