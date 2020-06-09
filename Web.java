@@ -1,20 +1,17 @@
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 
-abstract class Web implements Currency 
+abstract class Web implements CurrencyCalculator 
 {
     protected String address_format;
     protected String tag_class;
 
-    //@Override
+    @Override
     public double calculate(final double value, final String from, final String to) {
         //Setup
         String address = String.format(address_format, value, from, to);
@@ -24,18 +21,27 @@ abstract class Web implements Currency
             URL url = new URL(address);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
-        
-            //Retrieve
-            InputStream stream = con.getInputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(stream));
-            String result = text_tag(br, tag_class);
+    
+            //Retrieve 
+            //Get the InputStream from the HttpURLConnection and capture using a BufferedReader
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+            //Scape
+            String result = html_scape(br, tag_class);
             
             //Stop
             con.disconnect();
             br.close();
 
-            return Double.valueOf(result); //result
+            //Sleep
+            Thread.sleep(300); //prevent accidental DOS attack (300ms)
+
+            return Double.valueOf(result);
         } 
+
+        catch(InterruptedException e) { //related to Thread.Sleep
+            System.err.print("interrupted exception"); //unsure what would cause this
+        }
 
         catch (MalformedURLException e) {
             System.err.println("Error: " + address + " is faulty");
@@ -48,7 +54,9 @@ abstract class Web implements Currency
         return 0.0;
     }
 
-    public static String text_tag(BufferedReader html, String tag_class) {
+    //refactor html_scape, maybe change the name?
+
+    public static String html_scape(BufferedReader html, String tag_class) {
         String line;
         String innerText = "";
         int taglv = 1;
@@ -106,9 +114,16 @@ class XRate extends Web {
     }
 }
 
-class XE extends Web {
+abstract class XE extends Web { //this site does not allow automated requests
     public XE() {
         address_format = "https://www.xe.com/currencyconverter/convert/?Amount=%s&From=%s&To=%s";
-        tag_class = "<sapn class=\"converterresult-toAmount\">";
+        tag_class = "<span class=\"converterresult-toAmount\">";
+    }
+} 
+
+class YourSite extends Web {
+    public YourSite(String address_format, String tag_class) {
+        this.address_format = address_format;
+        this.tag_class = tag_class;
     }
 } 

@@ -15,25 +15,6 @@ import java.lang.Math;
 public class OracleTest 
 {
 
-    private Set<String> read() { 
-        Set<String> currency_codes = new HashSet<>();
-
-        try{
-            final BufferedReader br = new BufferedReader(new FileReader("./currency.csv"));
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                final String curreny_code = line.split(",")[0];
-                currency_codes.add(curreny_code);
-            }
-            br.close();
-        }
-        catch(IOException ex) {
-            System.out.println("Could not find file");
-        }
-
-        return currency_codes;
-    }  
-
     /*
     @Test
     public void testRandomIndex() //testRandom 
