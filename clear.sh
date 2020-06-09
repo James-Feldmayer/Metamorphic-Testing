@@ -1,4 +1,4 @@
 #!/bin/bash
 
-java Client
+rm *.class
 

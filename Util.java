@@ -9,6 +9,9 @@ Util.near_equal
 
 public class Util {
 
+    //SHOULD ALL BE STATIC
+
+
     //these use state
 
     /*
@@ -28,7 +31,12 @@ public class Util {
     }
     */
 
+    //"./currency.csv"
+
+    //String[] currency_codes = {"GBP", "EUR", "JPY", "CHF", "USD", "ARS", "AED", "AUD"};
+
     //
+
     public static String random_currency() {
         String[] currency_array = {"GBP", "EUR", "JPY", "CHF", "USD", "ARS", "AED", "AUD"};
 

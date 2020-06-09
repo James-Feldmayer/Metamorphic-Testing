@@ -1,11 +1,8 @@
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashMap;
 import java.lang.Math;
 
-public class Calculator implements Currency
+public class Offline implements CurrencyCalculator
 {
     HashMap<String, Double> MAP_USD_to = new HashMap<>();
 
@@ -27,27 +24,8 @@ public class Calculator implements Currency
         return to_USD(from) * USD_to(to); //ratio for converting currency X to currency Y
     }
 
-    public Calculator() 
+    public Offline() 
     {
-        /*
-        try{
-            final BufferedReader br = new BufferedReader(new FileReader("./currency.csv")); //open file currency.csv
-            
-            String line = "";
-    
-            while ((line = br.readLine()) != null) { //read in each line from the file
-                final String[] currency = line.split(",");
-                final String currency_code = currency[0];
-                final Double currency_ratio = Double.valueOf(currency[1]); //ratio of USD to currency
-                MAP_USD_to.put(currency_code, currency_ratio);
-            }
-
-            br.close(); //close file currency.csv
-        }
-        catch(IOException ex) {
-            System.out.println("Could not find file");
-        }*/
-
         MAP_USD_to.put("USD", 1.0);
         MAP_USD_to.put("GBP", 0.79);
         MAP_USD_to.put("EUR", 0.89);
@@ -56,9 +34,9 @@ public class Calculator implements Currency
         MAP_USD_to.put("ARS", 69.05);
         MAP_USD_to.put("AED", 3.67);
         MAP_USD_to.put("AUD", 1.43);
-        
     }
 
+    @Override
     public double calculate(final double value, final String from, final String to) {
         return value * conversion_ratio(from, to); //convert currency X to currency Y
     }
