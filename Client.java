@@ -3,7 +3,7 @@ public class Client
 {
     public static void main(String[] args) 
     {   
-        Oracle oracle = new Oracle(new CalculateNet()); 
+        Oracle oracle = new Oracle();
             //CalculateNet
             //YourSite
             //XRate
