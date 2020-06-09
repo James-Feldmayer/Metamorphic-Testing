@@ -21,7 +21,7 @@ public class Oracle
 
         int failed_cases = 0;
 
-        for(int i = 0; i < 1; i++) {
+        for(int i = 0; i < 30; i++) {
 
             final String currencyA = Util.random_currency(); //random currency codes
             final String currencyB = Util.random_currency();
@@ -35,9 +35,11 @@ public class Oracle
             axioms.add(new TransativeAxiom(new CalculateNet()));
             axioms.add(new ReversibleAxiom(new CalculateNet()));
 
+            System.out.println(i+"/30");
+
             for(Axiom a : axioms) {
                 if(!a.check(moneyA1, moneyA2, currencyA, currencyB, currencyC)) {
-                    System.out.println(i);
+                    //System.out.println(i);
                     a.print();
                 }
             }

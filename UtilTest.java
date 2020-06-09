@@ -30,6 +30,7 @@ public class UtilTest {
         assertTrue("Error nearest cent: rounding down", 34.80 == Util.nearest_cent(34.803051));
     }
 
+    /*
     @Test
     public void test_random_single() {
         //Checking positive range
@@ -47,6 +48,7 @@ public class UtilTest {
         //Checking 0
         assertTrue("Error random maximum: not equivalent", Util.random(0) == 0);
     }
+    */
 
     @Test
     public void test_random_range() {
