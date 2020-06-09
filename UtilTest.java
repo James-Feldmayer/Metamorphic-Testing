@@ -1,9 +1,10 @@
+
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
-
 
 public class UtilTest {
     
@@ -29,7 +30,6 @@ public class UtilTest {
         assertTrue("Error nearest cent: rounding down", 34.80 == Util.nearest_cent(34.803051));
     }
 
-    /*
     @Test
     public void test_random_single() {
         //Checking positive range
@@ -45,9 +45,8 @@ public class UtilTest {
             assertTrue("Error random maximum: not in range (Negative)", actual <= 0 && actual >= minimum);
         }
         //Checking 0
-        assertTrue("Error random maximum: not equivalent", Util.random(maximum) == 0);
+        assertTrue("Error random maximum: not equivalent", Util.random(0) == 0);
     }
-    */
 
     @Test
     public void test_random_range() {
@@ -56,30 +55,63 @@ public class UtilTest {
         double minimum = 124.125;
         for (int i = 0; i < 10000; i++) {
             double actual = Util.random(maximum, minimum);
-            assertTrue("Error random maximum: not in range (Positive)", actual >= minimum && actual <= maximum);
+            assertTrue("Error random range: not in range (Positive)", actual >= minimum && actual <= maximum);
             actual = Util.random(minimum, maximum);
-            assertTrue("Error random maximum: not in range (Positive)", actual >= minimum && actual <= maximum);
+            assertTrue("Error random range: not in range (Positive)", actual >= minimum && actual <= maximum);
         }
         //Checking negative range 
         maximum = -192.512;
         minimum = -18325.19;
         for (int i = 0; i < 10000; i++) {
             double actual = Util.random(maximum, minimum);
-            assertTrue("Error random maximum: not in range (Positive)", actual >= minimum && actual <= maximum);
+            assertTrue("Error random range: not in range (Positive)", actual >= minimum && actual <= maximum);
             actual = Util.random(minimum, maximum);
-            assertTrue("Error random maximum: not in range (Positive)", actual >= minimum && actual <= maximum);
+            assertTrue("Error random range: not in range (Positive)", actual >= minimum && actual <= maximum);
         }
-        //Checking positive and negativ range
+        //Checking positive and negative range
         maximum = 9124.01;
         minimum = -512.19;
         for (int i = 0; i < 10000; i++) {
-            double actual = Util.random(maximum);
-            actual = Util.random(maximum, minimum);
-            assertTrue("Error random maximum: not in range (Positive)", actual >= minimum && actual <= maximum);
+            double actual = Util.random(maximum, minimum);
+            assertTrue("Error random range: not in range (Positive)", actual >= minimum && actual <= maximum);
             actual = Util.random(minimum, maximum);
-            assertTrue("Error random maximum: not in range (Positive)", actual >= minimum && actual <= maximum);
+            assertTrue("Error random range: not in range (Positive)", actual >= minimum && actual <= maximum);
         }
         //Checking equivalent
-        assertTrue("Error random maximum: not equivalent", Util.random(567, 567) == 567);
+        assertTrue("Error random range: not equivalent", Util.random(567, 567) == 567);
+    }
+
+
+    //I think near_equal might be wrong?
+    //same, opposites, pos-neg 4x 
+
+    @Test
+    public void test_near_equal() {
+        //true equivalence
+        assertTrue("equivalent", Util.near_equal(1251.14, 1251.14, 1));
+        
+        //inverse
+        assertTrue("indiffernt to the order of these parameters", Util.near_equal(9172.01, 9172.05, 0.05));
+        assertTrue("indiffernt to the order of these parameters", Util.near_equal(9172.05, 9172.01, 0.05));
+
+        //intolerable error
+        assertFalse("outside the range of tolerable error", Util.near_equal(7129.107, 8120.145, 0.1));
+
+        //tolerable error
+        assertTrue("equivalent to tolerable error", Util.near_equal(6932, 6932.01, 0.01));    
+        assertTrue("within the range of tolerable error", Util.near_equal(1115.29, 1115.20, 0.10));
+
+        //opposites
+        assertFalse("not equivalent", Util.near_equal(100.10, -100.10, 0.01));
+
+        //positive and negative 
+        assertFalse("not equivalent", Util.near_equal(112.01, -13.00, 0.01));
+
+        //negative and positive 
+        assertFalse("not equivalent", Util.near_equal(112.01, -13.00, 0.01));
+        
+        //negative and negative 
+        assertTrue("equivalent", Util.near_equal(-90.23, -90.24, 0.01));
+
     }
 }

@@ -3,10 +3,7 @@ import java.util.ArrayList;
 
 /*
 Oracle()
-start
-transative_axiom
-ratio_axiom
-reversible_axiom
+void start()
 */
 
 public class Oracle 
@@ -27,8 +24,8 @@ public class Oracle
             final String currencyB = Util.random_currency();
             final String currencyC = Util.random_currency();
 
-            final double moneyA1 = Util.random_money(1, 1000000); //random amount of money 0-250
-            final double moneyA2 = Util.random_money(1, 1000000);
+            final double moneyA1 = Util.nearest_cent(Util.random(1, 1000000)); //random_money
+            final double moneyA2 = Util.nearest_cent(Util.random(1, 1000000));
 
             ArrayList<Axiom> axioms = new ArrayList<Axiom>();
             axioms.add(new RatioAxiom(new CalculateNet()));
