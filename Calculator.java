@@ -9,7 +9,6 @@ public class Calculator implements Currency
 {
     HashMap<String, Double> MAP_USD_to = new HashMap<>();
 
-    //private
     private double USD_to(final String currency) {
         final boolean currency_exists = MAP_USD_to.containsKey(currency);
 
@@ -28,16 +27,9 @@ public class Calculator implements Currency
         return to_USD(from) * USD_to(to); //ratio for converting currency X to currency Y
     }
 
-    //maybe expand calculator a little
-    //add some basic functionality for interacting with a user's currency
-    //this would be probably be helpful
-    private double nearest_cent(final double input) {
-        return Math.round(input*100.0)/100.0;
-    }
-
-    //public
     public Calculator() 
     {
+        /*
         try{
             final BufferedReader br = new BufferedReader(new FileReader("./currency.csv")); //open file currency.csv
             
@@ -54,7 +46,17 @@ public class Calculator implements Currency
         }
         catch(IOException ex) {
             System.out.println("Could not find file");
-        }
+        }*/
+
+        MAP_USD_to.put("USD", 1.0);
+        MAP_USD_to.put("GBP", 0.79);
+        MAP_USD_to.put("EUR", 0.89);
+        MAP_USD_to.put("JPY", 76.37);
+        MAP_USD_to.put("CHF", 0.96);
+        MAP_USD_to.put("ARS", 69.05);
+        MAP_USD_to.put("AED", 3.67);
+        MAP_USD_to.put("AUD", 1.43);
+        
     }
 
     public double calculate(final double value, final String from, final String to) {

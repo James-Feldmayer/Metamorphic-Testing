@@ -34,8 +34,6 @@ public class OracleTest
         return currency_codes;
     }  
 
-    //assertEquals(actual, expected);
-
     /*
     @Test
     public void testRandomIndex() //testRandom 

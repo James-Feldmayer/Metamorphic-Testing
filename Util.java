@@ -1,16 +1,21 @@
 
+/*
+Util.random_currency
+Util.nearest_cent
+Util.random
+Util.random_money
+Util.near_equal
+*/
+
 public class Util {
 
-    public static String randomCurrency() {
-        String[] currencies = {"GBP", "EUR", "JPY", "CHF", "USD", "ARS", "AED", "AUD"};
+    //these use state
 
-        int random_index = (int)Math.random() * currencies.length;
+    /*
+    Util.random_code
+    Util.random_index
+    */
 
-        return currencies[random_index];
-    } 
-
-//
-    //needs to have some state :O
     /*
     //get a random curreny code from currency_codes
     public String random_code() {
@@ -23,7 +28,17 @@ public class Util {
     }
     */
 
-//
+    //
+    public static String random_currency() {
+        String[] currency_array = {"GBP", "EUR", "JPY", "CHF", "USD", "ARS", "AED", "AUD"};
+
+        int random_index = (int)random(currency_array.length);
+
+        String random_currency = currency_array[random_index];
+
+        return random_currency;
+    } 
+
     //round off to the nearest cent 
     public static double nearest_cent(final double input) {
         return Math.round(input*100.0)/100.0;
