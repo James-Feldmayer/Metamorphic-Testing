@@ -1,13 +1,4 @@
 
-/*
-void test_random_currency()
-void test_nearest_cent()
-void test_random_single()
-void test_random_range()
-void test_near_equal()
-void test_to_int()
-*/
-
 /* 
 String random_currency()
 double nearest_cent(double)

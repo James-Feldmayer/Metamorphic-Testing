@@ -31,8 +31,6 @@ public class RatioAxiom implements Axiom {
         this.ratio1 = moneyA1/moneyB1;
         this.ratio2 = moneyA2/moneyB2; 
     
-        //should be a % error not fixed rate?
-
         return Util.near_equal(ratio1, ratio2, 0.01);
     }
 
