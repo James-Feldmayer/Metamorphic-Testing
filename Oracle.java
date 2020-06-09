@@ -35,11 +35,11 @@ public class Oracle
             axioms.add(new TransativeAxiom(new CalculateNet()));
             axioms.add(new ReversibleAxiom(new CalculateNet()));
 
-            for(Axiom a : axioms) {
-                System.out.println(i+"/30");
+            System.out.println(i+"/30");
 
+            for(Axiom a : axioms) {
                 if(!a.check(moneyA1, moneyA2, currencyA, currencyB, currencyC)) {
-                    System.out.println(i);
+                    //System.out.println(i);
                     a.print();
                 }
             }
