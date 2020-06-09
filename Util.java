@@ -54,19 +54,10 @@ public class Util {
 
     //allow for a small margain of error
     public static boolean near_equal(final double number1, final double number2, final double threshold) {
-        double error = Math.abs(number1 - number2); //
+        double error = Math.abs(number1 - number2); 
 
         return error <= threshold;
     }
-
-
-
-
-
-
-
-
-
 
     //might even need a new version using magnetude 
 

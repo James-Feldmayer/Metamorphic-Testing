@@ -6,6 +6,15 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 
+/*
+void test_random_currency()
+void test_nearest_cent()
+void test_random_single()
+void test_random_range()
+void test_near_equal()
+void test_to_int()
+*/
+
 public class UtilTest {
     
     @Test
@@ -16,6 +25,18 @@ public class UtilTest {
             String actual = Util.random_currency();
             assertTrue(list.contains(actual));
         }
+    }
+
+    @Test
+    public void test_to_int() {
+        //
+        assertTrue("no whole number rounding", 15 == Util.to_int(15));
+
+        //
+        assertTrue("rounds down", 0 == Util.to_int(0.12));
+
+        //
+        assertTrue("always rounds down", 13 == Util.to_int(13.9));
     }
 
     @Test
@@ -81,10 +102,6 @@ public class UtilTest {
         assertTrue("Error random range: not equivalent", Util.random(567, 567) == 567);
     }
 
-
-    //I think near_equal might be wrong?
-    //same, opposites, pos-neg 4x 
-
     @Test
     public void test_near_equal() {
         //true equivalence
@@ -98,7 +115,7 @@ public class UtilTest {
         assertFalse("outside the range of tolerable error", Util.near_equal(7129.107, 8120.145, 0.1));
 
         //tolerable error
-        assertTrue("equivalent to tolerable error", Util.near_equal(6932, 6932.01, 0.01));    
+        assertTrue("equivalent to tolerable error", Util.near_equal(0.01, 0.02, 0.01));    
         assertTrue("within the range of tolerable error", Util.near_equal(1115.29, 1115.20, 0.10));
 
         //opposites
@@ -108,10 +125,9 @@ public class UtilTest {
         assertFalse("not equivalent", Util.near_equal(112.01, -13.00, 0.01));
 
         //negative and positive 
-        assertFalse("not equivalent", Util.near_equal(112.01, -13.00, 0.01));
+        assertFalse("not equivalent", Util.near_equal(-112.01, 13.00, 0.01));
         
         //negative and negative 
         assertTrue("equivalent", Util.near_equal(-90.23, -90.24, 0.01));
-
     }
 }
