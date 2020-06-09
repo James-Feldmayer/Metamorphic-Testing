@@ -21,7 +21,7 @@ public class Oracle
 
         int failed_cases = 0;
 
-        for(int i = 0; i < 30; i++) {
+        for(int i = 0; i < 1; i++) {
 
             final String currencyA = Util.random_currency(); //random currency codes
             final String currencyB = Util.random_currency();
@@ -31,9 +31,9 @@ public class Oracle
             final double moneyA2 = Util.random_money(1, 1000000);
 
             ArrayList<Axiom> axioms = new ArrayList<Axiom>();
-            axioms.add(new RatioAxiom(new Offline()));
-            axioms.add(new TransativeAxiom(new Offline()));
-            axioms.add(new ReversibleAxiom(new Offline()));
+            axioms.add(new RatioAxiom(new CalculateNet()));
+            axioms.add(new TransativeAxiom(new CalculateNet()));
+            axioms.add(new ReversibleAxiom(new CalculateNet()));
 
             for(Axiom a : axioms) {
                 if(!a.check(moneyA1, moneyA2, currencyA, currencyB, currencyC)) {
