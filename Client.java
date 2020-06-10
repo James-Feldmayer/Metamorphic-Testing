@@ -10,5 +10,6 @@ public class Client
             //Offline
 
         oracle.start();
+        
     }    
 }
