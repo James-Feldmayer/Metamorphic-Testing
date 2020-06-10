@@ -58,7 +58,7 @@ abstract class Web implements CurrencyCalculator
     public static String html_scape(BufferedReader html, String tag_class) {
         String line;
         String innerText = "";
-        int taglv = 1;
+        int taglv = 0;
         
         try {
             //Find starting tag
@@ -68,25 +68,28 @@ abstract class Web implements CurrencyCalculator
 
             //Moves line upto tag
             if (line == null) return "";
-            line = line.substring(line.indexOf(tag_class) + tag_class.length() - 1);
+            line = line.substring(line.indexOf(tag_class));
 
             do {
                 //Moves to next line if no more tags
                 if (line.indexOf("<") < 0) {
                     innerText += line;
                     line = html.readLine();
+                    continue;
                 }
+
+                //Alters levels deep in the html tags through opening and closing tags
+                if (line.indexOf("</") == line.indexOf("<")) taglv--;
+                else taglv++;
+                if (taglv <= 0) break;
                 
                 //Moves to start of inner text for tag
                 line = line.substring(line.indexOf(">") + 1);
 
                 //Results of inner text
-                innerText += line.substring(0, line.indexOf("<"));
-
-                //Alters levels deep in the html tags through opening and closing tags
-                if (line.indexOf("</") == line.indexOf("<")) taglv--;
-                else taglv++;
-            } while (line != null && taglv > 0);
+                innerText += line.substring(0, line.indexOf("<") < 0 ? line.length() : line.indexOf("<"));
+                line = line.substring(line.indexOf("<") < 0 ? line.length() : line.indexOf("<"));
+            } while (line != null);
         } 
         
         catch (IOException e) {

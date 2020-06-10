@@ -45,13 +45,8 @@ public class Util {
 
     //allow for a small margain of error
     public static boolean near_equal(final double number1, final double number2, final double threshold) {
-<<<<<<< Updated upstream
         double error = Math.abs(number1 - number2); 
 
-=======
-        double error = Math.abs(number1 - number2); //
-        System.out.println(error);
->>>>>>> Stashed changes
         return error <= threshold;
     }
 

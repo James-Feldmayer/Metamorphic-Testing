@@ -23,7 +23,7 @@ public class WebTest {
         assertTrue("Error calculateNet class: Incorrect output", testCal.calculate(1, "AUD", "AUD") > 0);
     }
 
-    /*
+
     @Test
     public void test_html_scape() {
         Web test = new CalculateNet();
@@ -50,6 +50,5 @@ public class WebTest {
         result = test.html_scape(br, "<span>");
         assertTrue("Error test tag: Incorrect output" + result, result.isEmpty());
     }
-    */
     
 }
