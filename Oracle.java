@@ -32,9 +32,9 @@ public class Oracle
             //we should probably hard coded edge cases?
 
             ArrayList<Axiom> axioms = new ArrayList<Axiom>(); //operations
-            axioms.add(new RatioAxiom(new Offline()));
-            axioms.add(new TransativeAxiom(new Offline()));
-            axioms.add(new ReversibleAxiom(new Offline()));
+            axioms.add(new RatioAxiom(new CalculateNet()));
+            axioms.add(new TransativeAxiom(new CalculateNet()));
+            axioms.add(new ReversibleAxiom(new CalculateNet()));
 
             System.out.println(i+1+"/30"); //current iteration
 
