@@ -23,7 +23,6 @@ public class WebTest {
         assertTrue("Error calculateNet class: Incorrect output", testCal.calculate(1, "AUD", "AUD") > 0);
     }
 
-
     @Test
     public void test_html_scape() {
         Web test = new CalculateNet();
@@ -34,21 +33,21 @@ public class WebTest {
         BufferedReader br = new BufferedReader(inputHTML);
         String result = test.html_scape(br, "<span>");
 
-        assertTrue("Error test tag: Incorrect output" + result, result.equals("12345"));
+        assertTrue("Error test tag: Incorrect output", result.equals("12345"));
         
         //Multiline input
         exHTML = "<span>12\n<b>\n34\n</b>5\n</span>\n6789";
         inputHTML = new StringReader(exHTML);
         br = new BufferedReader(inputHTML);
         result = test.html_scape(br, "<span>");
-        assertTrue("Error test tag: Incorrect output" + result, result.equals("12345"));
+        assertTrue("Error test tag: Incorrect output", result.equals("12345"));
         
         //Empty line input and zero results
         exHTML = "";
         inputHTML = new StringReader(exHTML);
         br = new BufferedReader(inputHTML);
         result = test.html_scape(br, "<span>");
-        assertTrue("Error test tag: Incorrect output" + result, result.isEmpty());
+        assertTrue("Error test tag: Incorrect output", result.isEmpty());
     }
     
 }
