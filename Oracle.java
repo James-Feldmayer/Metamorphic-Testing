@@ -14,6 +14,8 @@ public class Oracle
         //this.calculator = calculator;
     //}
     
+    //this class is stateless and only has one function
+
     public void start() {
 
         int failed_cases = 0;
@@ -27,8 +29,7 @@ public class Oracle
             final double moneyA1 = Util.nearest_cent(Util.random(1, 1000000)); //random_money
             final double moneyA2 = Util.nearest_cent(Util.random(1, 1000000));
 
-            //we should probably add some cases in here
-            //some hard coded edge cases
+            //we should probably hard coded edge cases?
 
             ArrayList<Axiom> axioms = new ArrayList<Axiom>(); //operations
             axioms.add(new RatioAxiom(new CalculateNet()));
